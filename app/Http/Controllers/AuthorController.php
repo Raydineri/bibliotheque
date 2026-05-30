@@ -23,7 +23,7 @@ class AuthorController extends Controller
             'name' => 'required|string|max:255',
         ]);
         Author::create($request->only(['name', 'nationality', 'bio']));
-        return redirect()->route('authors.index')->with('success', 'Auteur ajouté !');
+        return redirect()->route('admin.authors.index')->with('success', 'Auteur ajouté !');
     }
 
     public function edit(Author $author)
@@ -35,12 +35,12 @@ class AuthorController extends Controller
     {
         $request->validate(['name' => 'required|string|max:255']);
         $author->update($request->only(['name', 'nationality', 'bio']));
-        return redirect()->route('authors.index')->with('success', 'Auteur modifié !');
+        return redirect()->route('admin.authors.index')->with('success', 'Auteur modifié !');
     }
 
     public function destroy(Author $author)
     {
         $author->delete();
-        return redirect()->route('authors.index')->with('success', 'Auteur supprimé.');
+        return redirect()->route('admin.authors.index')->with('success', 'Auteur supprimé.');
     }
 }

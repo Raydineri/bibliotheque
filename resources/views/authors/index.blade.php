@@ -3,7 +3,7 @@
 
     <div class="flex justify-between items-center mb-6">
         <p class="text-gray-500 text-sm">{{ $authors->total() }} auteur(s) enregistré(s)</p>
-        <a href="{{ route('authors.create') }}"
+        <a href="{{ route('admin.authors.create') }}"
            class="bg-green-600 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-700 transition flex items-center gap-2">
             <i class="fas fa-plus"></i> Ajouter un auteur
         </a>
@@ -38,11 +38,11 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex gap-2">
-                            <a href="{{ route('authors.edit', $author) }}"
+                            <a href="{{ route('admin.authors.edit', $author) }}"
                                class="bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded-lg text-xs hover:bg-yellow-200 transition">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form method="POST" action="{{ route('authors.destroy', $author) }}"
+                            <form method="POST" action="{{ route('admin.authors.destroy', $author) }}"
                                   onsubmit="return confirm('Supprimer cet auteur ?')">
                                 @csrf @method('DELETE')
                                 <button class="bg-red-100 text-red-700 px-3 py-1.5 rounded-lg text-xs hover:bg-red-200 transition">

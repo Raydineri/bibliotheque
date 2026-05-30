@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Bibliothèque') }} - {{ $title ?? '' }}</title>
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ asset('favicon.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -28,9 +30,7 @@
         {{-- Logo --}}
         <div class="p-6 border-b border-white/20">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-book-open text-white text-lg"></i>
-                </div>
+                <x-application-logo class="w-10 h-10" />
                 <div>
                     <h1 class="font-bold text-lg leading-tight">BiblioTech</h1>
                     <p class="text-xs text-blue-200">Bibliothèque Numérique</p>
@@ -38,7 +38,6 @@
             </div>
         </div>
 
-        {{-- Navigation --}}
         <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
 
             <a href="{{ route('dashboard') }}"
@@ -47,7 +46,7 @@
                 <span>Tableau de bord</span>
             </a>
 
-            {{-- Livres --}}
+            {{-- ===== SECTION CATALOGUE ===== --}}
             <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">Catalogue</div>
 
             <a href="{{ route('books.index') }}"
@@ -56,29 +55,42 @@
                 <span>Livres</span>
             </a>
 
-            <a href="{{ route('authors.index') }}"
-               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('authors.*') ? 'active' : '' }}">
+            @role('admin')
+            <a href="{{ route('admin.authors.index') }}"
+               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('admin.authors.*') ? 'active' : '' }}">
                 <i class="fas fa-user-pen w-5 text-center"></i>
                 <span>Auteurs</span>
             </a>
 
-            <a href="{{ route('categories.index') }}"
-               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.categories.index') }}"
+               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <i class="fas fa-tags w-5 text-center"></i>
                 <span>Catégories</span>
             </a>
+            @endrole
 
-            {{-- Emprunts --}}
+            {{-- ===== SECTION GESTION ===== --}}
             <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">Gestion</div>
 
             <a href="{{ route('loans.index') }}"
                class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('loans.*') ? 'active' : '' }}">
                 <i class="fas fa-hand-holding-heart w-5 text-center"></i>
-                <span>Emprunts</span>
+                <span>{{ auth()->user()->hasRole('admin') ? 'Tous les emprunts' : 'Mes emprunts' }}</span>
             </a>
 
-            {{-- Chatbot --}}
-            <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">IA</div>
+            @role('admin')
+            {{-- ===== SECTION ADMIN ===== --}}
+            <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">Administration</div>
+
+            <a href="{{ route('admin.users.index') }}"
+               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                <i class="fas fa-users-cog w-5 text-center"></i>
+                <span>Utilisateurs</span>
+            </a>
+            @endrole
+
+            {{-- ===== SECTION IA ===== --}}
+            <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">Assistant IA</div>
 
             <a href="{{ route('chatbot.index') }}"
                class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('chatbot.*') ? 'active' : '' }}">
@@ -86,6 +98,18 @@
                 <span>BiblioBot</span>
                 <span class="ml-auto bg-green-400 text-white text-xs px-2 py-0.5 rounded-full">IA</span>
             </a>
+
+            @role('member')
+            {{-- ===== SECTION MEMBRE ===== --}}
+            <div class="pt-4 pb-1 px-4 text-xs text-blue-300 uppercase tracking-wider font-semibold">Mon Compte</div>
+
+            <a href="{{ route('profile.show') }}"
+               class="flex items-center gap-3 px-4 py-3 text-sm {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                <i class="fas fa-user-circle w-5 text-center"></i>
+                <span>Mon Profil</span>
+            </a>
+            @endrole
+
         </nav>
 
         {{-- User info --}}

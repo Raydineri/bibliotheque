@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Créer les rôles
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'member']);
+        $guard = config('auth.defaults.guard');
+        Role::firstOrCreate(['name' => 'admin', 'guard_name' => $guard]);
+        Role::firstOrCreate(['name' => 'user', 'guard_name' => $guard]);
 
         // Admin
         $admin = User::factory()->create([
@@ -30,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $members = User::factory(10)->create([
             'member_since' => now()->subMonths(rand(1, 12)),
         ]);
-        $members->each(fn($u) => $u->assignRole('member'));
+        $members->each(fn($u) => $u->assignRole('user'));
 
         // Catégories & Auteurs & Livres
         $categories = Category::factory(6)->create();

@@ -22,13 +22,21 @@ class UserController extends Controller
         }
 
         $users = $query->orderByDesc('created_at')->paginate(15);
-        $roles = Role::all();
+        $roles = Role::query()
+            ->where('guard_name', config('auth.defaults.guard'))
+            ->whereIn('name', ['admin', 'user'])
+            ->orderBy('name')
+            ->get();
         return view('admin.users.index', compact('users', 'roles'));
     }
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = Role::query()
+            ->where('guard_name', config('auth.defaults.guard'))
+            ->whereIn('name', ['admin', 'user'])
+            ->orderBy('name')
+            ->get();
         return view('admin.users.create', compact('roles'));
     }
 
@@ -67,7 +75,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
+        $roles = Role::query()
+            ->where('guard_name', config('auth.defaults.guard'))
+            ->whereIn('name', ['admin', 'user'])
+            ->orderBy('name')
+            ->get();
         return view('admin.users.edit', compact('user', 'roles'));
     }
 

@@ -37,7 +37,7 @@ class BookService
             'active_loans'      => \App\Models\Loan::where('status', 'active')->count(),
             'overdue_loans'     => \App\Models\Loan::overdue()->count(),
             'total_members'     => \App\Models\User::whereHas('roles', function ($query) {
-                $query->where('name', 'member');
+                $query->where('name', 'user');
             })->count(),
         ];
     }

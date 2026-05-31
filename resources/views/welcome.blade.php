@@ -48,13 +48,13 @@
         <section class="mx-auto w-full max-w-6xl px-6 py-16">
             <div class="grid items-center gap-12 lg:grid-cols-2">
                 <div>
-                    <span class="app-badge app-badge-info">Plateforme bibliotheque</span>
+                    <span class="app-badge app-badge-info">Bienvenue sur BiblioTech</span>
                     <h1 class="mt-4 text-4xl font-semibold leading-tight text-slate-900">
-                        Une bibliotheque numerique claire, rapide et moderne.
+                        La bibliotheque numerique moderne pour gerer vos livres et vos emprunts.
                     </h1>
                     <p class="mt-4 text-base text-slate-600">
-                        Centralisez les livres, suivez les emprunts et offrez un acces rapide a votre
-                        catalogue avec une interface coherente et un assistant intelligent.
+                        Centralisez votre catalogue, suivez les emprunts et offrez une experience fluide
+                        a votre equipe avec une interface claire et un assistant intelligent.
                     </p>
                     <div class="mt-6 flex flex-wrap gap-3">
                         <a class="app-btn app-btn-primary" href="{{ route('login') }}">
@@ -67,6 +67,20 @@
                                 <span>Demarrer</span>
                             </a>
                         @endif
+                    </div>
+                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                        <div class="app-card-muted p-4">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Catalogue</p>
+                            <p class="mt-2 text-sm text-slate-600">Livres, auteurs et categories en un seul endroit.</p>
+                        </div>
+                        <div class="app-card-muted p-4">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Emprunts</p>
+                            <p class="mt-2 text-sm text-slate-600">Statuts clairs, rappels et historique.</p>
+                        </div>
+                        <div class="app-card-muted p-4">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Assistant IA</p>
+                            <p class="mt-2 text-sm text-slate-600">Aide instantanee et recommandations.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="app-card p-6">
@@ -98,6 +112,13 @@
                                 <p class="text-sm text-slate-600">Recommandations et aide instantanee.</p>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-6 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Flux de travail</p>
+                        <p class="mt-2 text-sm text-slate-600">
+                            Importez vos livres, attribuez les emprunts et gardez une vision globale avec des
+                            indicateurs simples.
+                        </p>
                     </div>
                 </div>
             </div>

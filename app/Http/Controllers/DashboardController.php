@@ -19,32 +19,32 @@ class DashboardController extends Controller
     {
         $user     = auth()->user();
         $isAdmin  = $user->hasRole('admin');
-        $isMember = $user->hasRole('member') || $user->hasRole('user');
+        $isUser   = $user->hasRole('user');
         $stats    = $this->bookService->getStats();
 
         $mostBorrowed = $this->bookService->getMostBorrowedBooks(5);
         $overdueLoans = $isAdmin
             ? $this->loanService->getOverdueLoans()
             : collect();
-        $myLoans = $isMember
+        $myLoans = $isUser
             ? $this->loanService->getUserLoans($user)->where('status', 'active')
             : collect();
 
-        $chartData = $this->buildChartData($user, $isMember);
+        $chartData = $this->buildChartData($user, $isUser);
 
-        return view('dashboard', compact('stats', 'mostBorrowed', 'overdueLoans', 'myLoans', 'chartData', 'isAdmin', 'isMember'));
+        return view('dashboard', compact('stats', 'mostBorrowed', 'overdueLoans', 'myLoans', 'chartData', 'isAdmin', 'isUser'));
     }
 
-    private function buildChartData(User $user, bool $isMember): array
+    private function buildChartData(User $user, bool $isUser): array
     {
         $months      = 6;
         $monthLabels = $this->buildMonthLabels($months);
 
         $adminStatus  = $this->getLoanStatusCounts();
-        $userStatus   = $isMember ? $this->getLoanStatusCounts($user->id) : [0, 0, 0];
+        $userStatus   = $isUser ? $this->getLoanStatusCounts($user->id) : [0, 0, 0];
 
         $topCategories     = $this->getTopCategories();
-        $userTopCategories = $isMember ? $this->getTopCategories($user->id) : collect();
+        $userTopCategories = $isUser ? $this->getTopCategories($user->id) : collect();
 
         return [
             'months' => $monthLabels,
@@ -54,7 +54,7 @@ class DashboardController extends Controller
                 }),
                 'membersPerMonth' => $this->buildMonthlySeries($months, function (Carbon $start, Carbon $end) {
                     return User::whereHas('roles', function ($query) {
-                        $query->where('name', 'member');
+                        $query->where('name', 'user');
                     })->whereBetween('created_at', [$start, $end])->count();
                 }),
                 'categoryLabels'  => $topCategories->pluck('name')->values()->all(),
@@ -65,7 +65,7 @@ class DashboardController extends Controller
                 ],
             ],
             'user'   => [
-                'loansPerMonth'  => $isMember
+                'loansPerMonth'  => $isUser
                     ? $this->buildMonthlySeries($months, function (Carbon $start, Carbon $end) use ($user) {
                         return Loan::where('user_id', $user->id)
                             ->whereBetween('borrowed_at', [$start, $end])

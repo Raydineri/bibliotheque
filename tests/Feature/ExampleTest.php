@@ -14,7 +14,8 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        // La racine redirige vers le tableau de bord.
-        $response->assertRedirect('/dashboard');
+        // La racine affiche la page d'accueil pour les invites.
+        $response->assertOk();
+        $response->assertSee('BiblioTech');
     }
 }

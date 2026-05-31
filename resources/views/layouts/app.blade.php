@@ -97,7 +97,7 @@
                 <span class="ml-auto app-badge app-badge-success">IA</span>
             </a>
 
-            @role('member')
+            @role('user')
             {{-- ===== SECTION MEMBRE ===== --}}
             <div class="pt-4 pb-1 px-4 text-[11px] text-slate-400 uppercase tracking-widest font-semibold">Mon Compte</div>
 

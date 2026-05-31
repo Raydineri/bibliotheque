@@ -122,7 +122,7 @@
         </div>
     @endif
 
-    @if($isMember)
+    @if($isUser)
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
             <div class="card p-6 xl:col-span-2">
                 <div class="flex items-center justify-between mb-4">
@@ -166,7 +166,9 @@
                     </div>
                     <div class="flex items-center justify-between text-sm text-gray-600 mt-2">
                         <span>En retard</span>
-                        <span class="font-semibold text-red-600">{{ $myLoans->where('due_date', '<', now())->count() }}</span>
+                        <span class="font-semibold text-red-600">
+                            {{ $myLoans->filter(fn($loan) => $loan->due_date->isPast())->count() }}
+                        </span>
                     </div>
                 </div>
             </div>

@@ -28,14 +28,20 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Rôle *</label>
+                @php
+                    $roleLabels = [
+                        'admin' => '👑 Administrateur',
+                        'user' => '👤 Utilisateur',
+                    ];
+                @endphp
                 <div class="flex gap-4 mt-2">
                     @foreach($roles as $role)
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="radio" name="role" value="{{ $role->name }}"
-                                   {{ old('role', 'member') === $role->name ? 'checked' : '' }}
+                                   {{ old('role', 'user') === $role->name ? 'checked' : '' }}
                                    class="text-blue-600">
                             <span class="text-sm {{ $role->name === 'admin' ? 'text-purple-600 font-medium' : 'text-gray-700' }}">
-                                {{ $role->name === 'admin' ? '👑 Administrateur' : '👤 Membre' }}
+                                {{ $roleLabels[$role->name] ?? ucfirst($role->name) }}
                             </span>
                         </label>
                     @endforeach

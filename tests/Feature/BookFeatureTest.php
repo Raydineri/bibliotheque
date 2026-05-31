@@ -54,7 +54,7 @@ class BookFeatureTest extends TestCase
     public function test_member_cannot_access_author_management(): void
     {
         $this->actingAs($this->member)
-            ->get('/authors')
+            ->get('/admin/authors')
             ->assertStatus(403);
     }
 

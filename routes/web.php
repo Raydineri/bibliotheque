@@ -8,7 +8,13 @@ use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 
-Route::get('/', fn() => redirect('/dashboard'));
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return view('welcome');
+});
 
 Route::middleware(['auth'])->group(function () {
 

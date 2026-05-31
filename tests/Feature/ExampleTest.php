@@ -14,6 +14,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        // La racine redirige vers le tableau de bord.
+        $response->assertRedirect('/dashboard');
     }
 }

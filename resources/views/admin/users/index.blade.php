@@ -141,8 +141,7 @@
                                 </button>
                             </form>
                             @if($user->id !== auth()->id())
-                                <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
-                                      onsubmit="return confirm('Supprimer {{ $user->name }} ?')">
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}">
                                     @csrf @method('DELETE')
                                     <button class="bg-red-100 text-red-700 p-2 rounded-lg hover:bg-red-200 transition" title="Supprimer">
                                         <i class="fas fa-trash text-xs"></i>

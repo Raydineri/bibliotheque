@@ -1,3 +1,139 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900 antialiased;
+    }
+}
+
+@layer components {
+    .app-sidebar {
+        @apply bg-gradient-to-b from-[#1e3a5f] to-[#2d6a9f] shadow-xl;
+    }
+
+    .app-nav-link {
+        @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white transition;
+    }
+
+    .app-nav-link.active {
+        @apply bg-white/15 text-white shadow-sm;
+    }
+
+    .app-card {
+        @apply bg-white rounded-2xl border border-slate-200/70 shadow-sm;
+    }
+
+    .app-card-muted {
+        @apply bg-slate-50 border border-slate-200/70 rounded-2xl;
+    }
+
+    .app-badge {
+        @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
+    }
+
+    .app-badge-success {
+        @apply bg-emerald-100 text-emerald-700;
+    }
+
+    .app-badge-info {
+        @apply bg-indigo-100 text-indigo-700;
+    }
+
+    .app-badge-warning {
+        @apply bg-amber-100 text-amber-700;
+    }
+
+    .app-badge-danger {
+        @apply bg-rose-100 text-rose-700;
+    }
+
+    .app-btn {
+        @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/60;
+    }
+
+    .app-btn-primary {
+        @apply bg-slate-900 text-white hover:bg-slate-800;
+    }
+
+    .app-btn-secondary {
+        @apply bg-white text-slate-700 border border-slate-200 hover:bg-slate-50;
+    }
+
+    .app-btn-ghost {
+        @apply text-slate-600 hover:text-slate-900 hover:bg-slate-100;
+    }
+
+    .app-btn-success {
+        @apply bg-emerald-600 text-white hover:bg-emerald-700;
+    }
+
+    .app-btn-warning {
+        @apply bg-amber-400 text-amber-950 hover:bg-amber-500;
+    }
+
+    .app-btn-danger {
+        @apply bg-rose-600 text-white hover:bg-rose-700;
+    }
+
+    .app-input {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-300 focus:ring-2 focus:ring-slate-200;
+    }
+
+    .app-select {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-300 focus:ring-2 focus:ring-slate-200;
+    }
+
+    .app-table {
+        @apply w-full text-sm text-slate-700;
+    }
+
+    .app-table thead th {
+        @apply text-left text-xs font-semibold uppercase tracking-wider text-slate-500 px-6 py-4 bg-slate-50;
+    }
+
+    .app-table tbody td {
+        @apply px-6 py-4 border-t border-slate-100;
+    }
+
+    .app-alert {
+        @apply flex items-center gap-2 rounded-xl border px-4 py-3 text-sm;
+    }
+
+    .app-alert-success {
+        @apply border-emerald-200 bg-emerald-50 text-emerald-800;
+    }
+
+    .app-alert-danger {
+        @apply border-rose-200 bg-rose-50 text-rose-800;
+    }
+
+    .card {
+        @apply app-card;
+    }
+
+    .badge-available {
+        @apply app-badge bg-emerald-100 text-emerald-700;
+    }
+
+    .badge-unavailable {
+        @apply app-badge bg-rose-100 text-rose-700;
+    }
+
+    .badge-active {
+        @apply app-badge bg-indigo-100 text-indigo-700;
+    }
+
+    .badge-returned {
+        @apply app-badge bg-emerald-100 text-emerald-700;
+    }
+
+    .badge-overdue {
+        @apply app-badge bg-rose-100 text-rose-700;
+    }
+}

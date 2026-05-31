@@ -1,25 +1,68 @@
 <x-app-layout>
-    <x-slot name="header">Ajouter une catégorie</x-slot>
-    <div class="max-w-xl mx-auto card p-8">
-        <form method="POST" action="{{ route('admin.categories.store') }}" class="space-y-5">
-            @csrf
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
-                <input type="text" name="name" value="{{ old('name') }}"
-                       class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-                @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+    <x-slot name="header">Ajouter une categorie</x-slot>
+
+    <div class="space-y-8">
+        <div class="mx-auto w-full max-w-2xl">
+            <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div class="border-b border-slate-200 bg-slate-50/40 px-8 py-6">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100">
+                            <i class="fas fa-plus text-indigo-700"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">Informations de la categorie</p>
+                            <p class="text-xs text-slate-500">Completez les details de la nouvelle categorie</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ route('admin.categories.store') }}" class="gap-6 space-y-6 p-8">
+                    @csrf
+
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-slate-900 mb-2">
+                            Nom de la categorie
+                            <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                <i class="fas fa-tag"></i>
+                            </span>
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Ex: Science-Fiction"
+                                   class="app-input pl-10 @error('name') border-rose-300 ring-2 ring-rose-200 @enderror">
+                        </div>
+                        @error('name')<p class="mt-2 flex items-center gap-1 text-xs font-medium text-rose-600"><i class="fas fa-exclamation-circle"></i> {{ $message }}</p>@enderror
+                    </div>
+
+                    <div>
+                        <label for="description" class="block text-sm font-semibold text-slate-900 mb-2">
+                            Description
+                        </label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-3.5 text-slate-400">
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            <input type="text" id="description" name="description" value="{{ old('description') }}" placeholder="Decrivez l'objectif et le contenu de cette categorie..."
+                                   class="app-input pl-10">
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-6">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+                            <a href="{{ route('admin.categories.index') }}"
+                               class="app-btn app-btn-secondary">
+                                <i class="fas fa-times"></i>
+                                Annuler
+                            </a>
+                            <button type="submit"
+                                    class="app-btn app-btn-success">
+                                <i class="fas fa-check"></i>
+                                Creer la categorie
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <input type="text" name="description" value="{{ old('description') }}"
-                       class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div class="flex gap-3">
-                <button type="submit" class="bg-green-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-green-700 transition">
-                    <i class="fas fa-save mr-1"></i> Enregistrer
-                </button>
-                <a href="{{ route('admin.categories.index') }}" class="bg-gray-100 text-gray-600 px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 transition">Annuler</a>
-            </div>
-        </form>
+        </div>
     </div>
 </x-app-layout>

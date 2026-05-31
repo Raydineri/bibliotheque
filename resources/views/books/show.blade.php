@@ -66,7 +66,7 @@
                                class="bg-yellow-500 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-yellow-600 transition flex items-center gap-2">
                                 <i class="fas fa-edit"></i> Modifier
                             </a>
-                            <form method="POST" action="{{ route('books.destroy', $book) }}" onsubmit="return confirm('Supprimer ce livre ?')">
+                                <form method="POST" action="{{ route('books.destroy', $book) }}">
                                 @csrf @method('DELETE')
                                 <button type="submit"
                                         class="bg-red-500 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-red-600 transition flex items-center gap-2">

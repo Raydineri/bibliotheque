@@ -175,66 +175,86 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="card p-6">
-            <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                <i class="fas fa-fire text-orange-500"></i> Livres les plus empruntes
-            </h3>
-            @forelse($mostBorrowed as $book)
-                <div class="flex items-center justify-between py-3 border-b last:border-0">
-                    <div>
-                        <p class="font-medium text-sm text-gray-800">{{ $book->title }}</p>
-                        <p class="text-xs text-gray-400">{{ $book->author->name ?? '' }}</p>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-fire text-orange-500"></i> Livres les plus empruntes
+                </h3>
+                <span class="text-xs text-slate-400">Top {{ $mostBorrowed->count() }}</span>
+            </div>
+            <div class="space-y-3">
+                @forelse($mostBorrowed as $book)
+                    <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/70 px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-sm text-slate-900">{{ $book->title }}</p>
+                                <p class="text-xs text-slate-500">{{ $book->author->name ?? '' }}</p>
+                            </div>
+                        </div>
+                        <span class="app-badge app-badge-info">
+                            {{ $book->loans_count }} emprunts
+                        </span>
                     </div>
-                    <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">
-                        {{ $book->loans_count }} emprunts
-                    </span>
-                </div>
-            @empty
-                <p class="text-gray-400 text-sm text-center py-4">Aucun emprunt enregistre</p>
-            @endforelse
+                @empty
+                    <p class="text-slate-400 text-sm text-center py-6">Aucun emprunt enregistre</p>
+                @endforelse
+            </div>
         </div>
 
         @if(auth()->user()->hasRole('admin') && $overdueLoans->count())
             <div class="card p-6">
-                <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="fas fa-exclamation-triangle text-red-500"></i>
-                    Emprunts en retard ({{ $overdueLoans->count() }})
-                </h3>
-                @foreach($overdueLoans as $loan)
-                    <div class="flex items-center justify-between py-3 border-b last:border-0">
-                        <div>
-                            <p class="font-medium text-sm text-gray-800">{{ $loan->book->title }}</p>
-                            <p class="text-xs text-gray-400">{{ $loan->user->name }}</p>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle text-rose-500"></i>
+                        Emprunts en retard
+                    </h3>
+                    <span class="app-badge app-badge-danger">{{ $overdueLoans->count() }}</span>
+                </div>
+                <div class="space-y-3">
+                    @foreach($overdueLoans as $loan)
+                        <div class="flex items-center justify-between rounded-xl border border-rose-100 bg-rose-50/60 px-4 py-3">
+                            <div>
+                                <p class="font-medium text-sm text-slate-900">{{ $loan->book->title }}</p>
+                                <p class="text-xs text-slate-500">{{ $loan->user->name }}</p>
+                            </div>
+                            <span class="badge-overdue">
+                                {{ $loan->due_date->diffForHumans() }}
+                            </span>
                         </div>
-                        <span class="badge-overdue">
-                            {{ $loan->due_date->diffForHumans() }}
-                        </span>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         @else
-            <div class="card p-6">
-                <h3 class="font-semibold text-gray-700 mb-4 flex items-center gap-2">
-                    <i class="fas fa-book-reader text-blue-500"></i> Mes emprunts actifs
-                </h3>
-                @forelse($myLoans as $loan)
-                    <div class="flex items-center justify-between py-3 border-b last:border-0">
-                        <div>
-                            <p class="font-medium text-sm text-gray-800">{{ $loan->book->title }}</p>
-                            <p class="text-xs text-gray-400">Retour avant le {{ $loan->due_date->format('d/m/Y') }}</p>
+            <div class="card p-6 flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+                        <i class="fas fa-book-reader text-blue-500"></i> Mes emprunts actifs
+                    </h3>
+                    <span class="text-xs text-slate-400">{{ $myLoans->count() }} actifs</span>
+                </div>
+                <div class="space-y-3">
+                    @forelse($myLoans as $loan)
+                        <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-white px-4 py-3">
+                            <div>
+                                <p class="font-medium text-sm text-slate-900">{{ $loan->book->title }}</p>
+                                <p class="text-xs text-slate-500">Retour avant le {{ $loan->due_date->format('d/m/Y') }}</p>
+                            </div>
+                            @if($loan->due_date->isPast())
+                                <span class="badge-overdue">En retard</span>
+                            @else
+                                <span class="badge-active">Actif</span>
+                            @endif
                         </div>
-                        @if($loan->due_date->isPast())
-                            <span class="badge-overdue">En retard</span>
-                        @else
-                            <span class="badge-active">Actif</span>
-                        @endif
-                    </div>
-                @empty
-                    <p class="text-gray-400 text-sm text-center py-4">Aucun emprunt actif</p>
-                @endforelse
-                <div class="mt-4">
+                    @empty
+                        <p class="text-slate-400 text-sm text-center py-6">Aucun emprunt actif</p>
+                    @endforelse
+                </div>
+                <div class="mt-5">
                     <a href="{{ route('books.index') }}"
-                       class="block text-center bg-blue-600 text-white py-2 rounded-xl text-sm hover:bg-blue-700 transition">
-                        <i class="fas fa-search mr-1"></i> Parcourir le catalogue
+                       class="app-btn app-btn-primary w-full justify-center">
+                        <i class="fas fa-search"></i> Parcourir le catalogue
                     </a>
                 </div>
             </div>

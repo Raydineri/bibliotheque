@@ -31,6 +31,12 @@ class AuthorController extends Controller
         return view('authors.edit', compact('author'));
     }
 
+    public function show(Author $author)
+    {
+        $author->loadCount('books')->load(['books:id,title,author_id']);
+        return view('authors.show', compact('author'));
+    }
+
     public function update(Request $request, Author $author)
     {
         $request->validate(['name' => 'required|string|max:255']);

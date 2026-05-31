@@ -159,7 +159,20 @@
         });
 
         document.getElementById('clear-btn').addEventListener('click', async () => {
-            if (!confirm('Effacer tout l\'historique ?')) return;
+            const result = await window.Swal.fire({
+                title: 'Effacer tout l\'historique ? ',
+                text: 'Cette action est irreversible.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Effacer',
+                cancelButtonText: 'Annuler',
+                confirmButtonColor: '#e11d48'
+            });
+
+            if (!result.isConfirmed) {
+                return;
+            }
+
             await fetch('/api/chatbot/history', {
                 method: 'DELETE',
                 headers: { 'X-CSRF-TOKEN': csrfToken }
